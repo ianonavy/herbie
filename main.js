@@ -132,13 +132,21 @@ function entryToHTML(queryResult, entryNumber) {
 }
 
 // Updates the DOM with the entry objects
-function displayResults(queryResults) {
+function updateResults(queryResults) {
+	// Change elements
 	while (results.hasChildNodes()) {
 		results.removeChild(results.lastChild);
 	}
 	for (var i = 0, len = queryResults.length; i < len; i++) {
 		var queryResult = queryResults[i];
 		results.appendChild(entryToHTML(queryResult, i));
+	}
+
+	// Don't display footer if 1 or fewer elements.
+	if (queryResults.length > 1) {
+		footer.style.display = "block";
+	} else {
+		footer.style.display = "none";
 	}
 }
 
@@ -202,19 +210,8 @@ function main() {
 	searchTextbox.addEventListener('keyup', function (e) {
 		var query = e.target.value;
 		var queryResults = getQueryResults(entries, query);
-		displayResults(queryResults);
+		updateResults(queryResults);
 
-		if (queryResults.length != 0) {
-			results.style.display = "block";
-		} else {
-			results.style.display = "none";
-		}
-
-		if (queryResults.length > 1) {
-			footer.style.display = "block";
-		} else {
-			footer.style.display = "none";
-		}
 
 		if (e.keyCode == 40) {  // down arrow
 			highlighted = selectDown(highlighted);
