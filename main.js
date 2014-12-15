@@ -215,6 +215,14 @@ function main() {
 	});
 	var displayedEntries = [];
 
+	document.addEventListener('mouseover', function (e) {
+		if (e.target.className.indexOf('menu-item') != -1) {
+			highlighted = Array.prototype.indexOf.call(
+				results.childNodes, e.target);
+			updateHighlighted(highlighted);
+		}
+	}, true);
+
 	document.addEventListener('keyup', function (e) {
 		listenForEscapeToClose(e.keyCode);
 		highlighted = getHighlightChangedFromKeyPress(highlighted, e.keyCode);

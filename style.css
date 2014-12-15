@@ -39,12 +39,8 @@ html, body {
 	margin-top: 10px;
 }
 
-.menu-item:hover, .selected {
+.selected {
 	background: #d1d1d1;
-}
-
-.menu-item.footer:hover {
-	background: inherit;
 }
 
 .results {
