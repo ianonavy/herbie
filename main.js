@@ -10,7 +10,6 @@ var win = gui.Window.get();
 
 // Useful DOM objects:
 var results = document.getElementById("results");
-var footer = document.getElementById("footer");
 
 
 // Execute arbitrary command, removing the XDG .desktop file specific stuff
@@ -142,6 +141,7 @@ function updateResults(queryResults) {
 	}
 
 	// Don't display footer if 1 or fewer elements.
+	var footer = document.getElementById("footer");
 	if (queryResults.length > 1) {
 		footer.style.display = "block";
 	} else {
