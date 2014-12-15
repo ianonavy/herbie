@@ -9,7 +9,6 @@ var xdg = require('./xdg');
 var win = gui.Window.get();
 
 // Useful DOM objects:
-var searchTextbox = document.getElementById("search");
 var results = document.getElementById("results");
 var footer = document.getElementById("footer");
 
@@ -211,6 +210,7 @@ function main() {
 		addEntries(entries, dataDir);
 	});
 
+	var searchTextbox = document.getElementById("search");
 	searchTextbox.addEventListener('keyup', function (e) {
 		var query = e.target.value;
 		var queryResults = getQueryResults(entries, query);
