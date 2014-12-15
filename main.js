@@ -203,6 +203,8 @@ function getHighlightChangedFromKeyPress(highlighted, keyCode) {
 		return Math.max(highlighted - 1, 0);
 	} else if (keyCode != 13) {  // anything but Enter clears the selected
 		return CLEAR_SELECT;
+	} else {
+		return highlighted;
 	}
 }
 
@@ -226,7 +228,7 @@ function main() {
 	document.addEventListener('keyup', function (e) {
 		listenForEscapeToClose(e.keyCode);
 		highlighted = getHighlightChangedFromKeyPress(highlighted, e.keyCode);
-		handleShortcuts(highlighted, entries, e);
+		handleShortcuts(highlighted, displayedEntries, e);
 		if (e.target == searchTextbox) {
 			var query = e.target.value;
 			displayedEntries = getQueryResults(entries, query);
