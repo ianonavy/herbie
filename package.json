@@ -3,7 +3,8 @@
   "author": "Ian Adam Naval <ian@ianonavy.com>",
   "description": "Free application launcher for hackers.",
   "dependencies": {
-    "xdg-basedir": ">= 1.0.0"
+    "xdg-basedir": ">= 1.0.0",
+    "clj-fuzzy": ">=0.2.0"
   },
   "main": "index.html",
    "window": {

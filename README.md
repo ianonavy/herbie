@@ -39,7 +39,7 @@ Todo
 * Google/DDG search module
 * File search module
 * Frequency-based ordering
-* Better fuzzy matching programs
+* ~~Better fuzzy matching algorithms~~
 * Remember last query
 * Preferences
 	* User CSS

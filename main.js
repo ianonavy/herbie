@@ -4,6 +4,7 @@ var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
+var clj_fuzzy = require('clj-fuzzy');
 var xdg = require('./xdg');
 var win = gui.Window.get();
 
@@ -54,18 +55,32 @@ function addEntries(entries, dataDir) {
 
 // Filters out the first 5 entries that match the query.
 function getQueryResults(entries, query) {
-	if (query === "") {
+	if (query === "") {""
 		return [];
 	}
-	var query = query.toLowerCase();
-	return entries.filter(function (entry) {
+	var lowerQuery = query.toLowerCase();
+
+	function addScore(entry) {
+		var lowerTitle = entry.title.toLowerCase();
+		entry.score = clj_fuzzy.metrics.jaccard(lowerTitle, lowerQuery);
+		return entry;
+	}
+
+	function entryMatches(entry) {
 		if (!entry.exists) {
 			return false;
 		}
-		var title = entry.title.toLowerCase();
-		var matches = title.indexOf(query) != -1;
-		return entry.exists && matches;
-	}).slice(0, 5);
+		var lowerTitle = entry.title.toLowerCase();
+		var contains = lowerQuery.indexOf(lowerTitle) != -1;
+		var wildcardRegex = new RegExp(lowerQuery.split("").join(".*"), "i");
+		var wildcardMatch = wildcardRegex.test(lowerTitle);
+		return contains || wildcardMatch;
+	}
+
+	return entries.filter(entryMatches)
+	              .map(addScore)
+	              .sort(function (a, b) { return a.score - b.score; })
+	              .slice(0, 5);
 }
 
 // Converts an entry number into a display string for the  appropriate shortcut.
