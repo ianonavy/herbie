@@ -1,0 +1,21 @@
+{
+  "name": "Herbie",
+  "author": "Ian Adam Naval <ian@ianonavy.com>",
+  "description": "Free application launcher for hackers.",
+  "dependencies": {
+    "xdg-basedir": ">= 1.0.0"
+  },
+  "main": "index.html",
+   "window": {
+   	"title": "Herby",
+    "toolbar": false,
+   	"frame": false,
+    "width": 620,
+    "height": 696,
+   	"position": "center",
+   	"resizable": false,
+   	"always-on-top": true,
+   	"show_in_taskbar": false,
+   	"transparent": true
+  }
+}
