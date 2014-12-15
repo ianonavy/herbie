@@ -41,7 +41,8 @@ function fileToEntry(filename) {
 
 // Searches applciations directory under the data for .desktop files, and adds
 // entry objects for each of them.
-function addEntries(entries, dataDir) {
+function getEntriesFromApplications(dataDir) {
+	var entries = [];
 	var dir = path.join(dataDir, 'applications');
 	if (fs.existsSync(dir)) {
 		var desktopFiles = fs.readdirSync(dir);
@@ -49,6 +50,7 @@ function addEntries(entries, dataDir) {
 			entries.push(fileToEntry(path.join(dir, desktopFiles[j])));
 		}
 	}
+	return entries;
 }
 
 // Filters out the first 5 entries that match the query.
@@ -207,7 +209,7 @@ function main() {
 	var highlighted = -1;  // none
 	var entries = [];
 	xdg.forEachDataDir(function (dataDir) {
-		addEntries(entries, dataDir);
+		entries = entries.concat(getEntriesFromApplications(dataDir));
 	});
 
 	var searchTextbox = document.getElementById("search");
