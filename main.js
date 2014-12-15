@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 var xdg = require('./xdg');
+var win = gui.Window.get();
 
 // Useful DOM objects:
 var searchTextbox = document.getElementById("search");
@@ -18,7 +19,6 @@ function executeCommand(path) {
 	path = path.replace(/%[UufF]/g, "");
 	console.log("Executing: " + path);
 	exec(path);  // dun dun dun
-	var win = gui.Window.get();
 	win.close();
 }
 
@@ -218,6 +218,9 @@ function main() {
 		}
 	}, true);
 
+	win.on('blur', function () {
+		win.close();
+	}, true);
 }
 
 
