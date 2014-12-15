@@ -1,9 +1,12 @@
 herbie
 ======
 
-0.1 beta
+0.1.0 beta
 
-Shameless ripoff of [Alfred](http://www.alfredapp.com/). Inspired by [Mutate](https://github.com/qdore/Mutate), but built from Web technologies and designed for any GNU/Linux system. Currently pre-release software. Seriously, don't use this!
+Shameless ripoff of [Alfred](http://www.alfredapp.com/). Inspired by
+[Mutate](https://github.com/qdore/Mutate), but built from Web technologies and
+designed for any GNU/Linux system. Currently pre-release software. Seriously,
+don't use this!
 
 Requirements
 ------------
@@ -11,9 +14,12 @@ Requirements
 * nodejs>=0.10.33
 * npm>=2.1.14
 * node-webkit>=0.11.2
+* grunt (optional)
 
 Installing
 ----------
+
+### Manually
 
 Clone this repo, and `cd` into the directory. Then run:
 
@@ -21,7 +27,25 @@ Clone this repo, and `cd` into the directory. Then run:
 
 Run with `nw --enable-transparent-visuals --disable-gpu .`
 
-I needed those flags to [get around some node-webkit transparency issues on Arch](https://github.com/rogerwang/node-webkit/issues/132#issuecomment-64943359). You may not need them.
+I needed those flags to [get around some node-webkit transparency issues on Arch
+](https://github.com/rogerwang/node-webkit/issues/132#issuecomment-64943359).
+You may not need them.
+
+### With Grunt (Linux only for now)
+
+If you don't have grunt, `sudo npm install -g grunt-cli`
+
+Clone this repo, and `cd` into the directory. Then run:
+
+    npm install
+    grunt
+
+Run with `build/herbie/$PLATFORM/herbie`. You can also just copy the contents of
+`build/herbie/$PLATFORM/` into `/usr/local/bin/` and it will just work. We don't
+recommend it though.
+
+We'll support binary downloads as soon as we can figure out the paperwork for
+distributing binaries based on Chromium. There are a lot of licenses.
 
 Current Features
 ----------------
