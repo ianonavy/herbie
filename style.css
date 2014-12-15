@@ -43,6 +43,10 @@ html, body {
 	background: #d1d1d1;
 }
 
+.menu-item.footer:hover {
+	background: inherit;
+}
+
 .results {
 	list-style: none;
 	margin: 0;
