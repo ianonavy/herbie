@@ -15,7 +15,7 @@ var footer = document.getElementById("footer");
 // Execute arbitrary command, removing the XDG .desktop file specific stuff
 // until we figure out what to do with them.
 function executeCommand(path) {
-	path = path.replace(/%[UfF]/g, "");
+	path = path.replace(/%[UufF]/g, "");
 	console.log("Executing: " + path);
 	exec(path);  // dun dun dun
 	var win = gui.Window.get();
