@@ -1,21 +1,26 @@
 {
   "name": "Herbie",
+  "version": "0.1.0b",
   "author": "Ian Adam Naval <ian@ianonavy.com>",
   "description": "Free application launcher for hackers.",
   "dependencies": {
-    "xdg-basedir": ">= 1.0.0"
+    "xdg-basedir": ">=1.0.0"
   },
   "main": "index.html",
-   "window": {
-   	"title": "Herby",
+  "window": {
+    "title": "Herby",
     "toolbar": false,
-   	"frame": false,
+    "frame": false,
     "width": 620,
     "height": 696,
-   	"position": "center",
-   	"resizable": false,
-   	"always-on-top": true,
-   	"show_in_taskbar": false,
-   	"transparent": true
+    "position": "center",
+    "resizable": false,
+    "always-on-top": true,
+    "show_in_taskbar": false,
+    "transparent": true
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-node-webkit-builder": "^1.0.0"
   }
 }
