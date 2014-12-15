@@ -8,7 +8,7 @@ var clj_fuzzy = require('clj-fuzzy');
 var xdg = require('./xdg');
 var win = gui.Window.get();
 
-// Useful DOM objects:
+var CLEAR_SELECT = -1;
 var results = document.getElementById("results");
 
 
@@ -151,29 +151,14 @@ function updateResults(queryResults) {
 	}
 }
 
-// Value to use as "negative"
-function clearSelect() {
-	return -1;
-}
-
-// User hit down, so increase the index value (maxing out at # of results)
-function selectDown(highlighted) {
-	return Math.min(highlighted + 1, results.childNodes.length - 1);
-}
-
-// User hit up, so decrease the index value (stopping at 0)
-function selectUp(highlighted) {
-	return Math.max(highlighted - 1, 0);
-}
-
 // Gets the selected application to run. If the user hit enter and something was
 // highlighted via arrow keys, use that one. Otherwise, use the firs tone.
 // If the user hit Alt+n, return n.
 function getNumSelected(highlighted, e) {
-	var selected = clearSelect();
+	var selected = CLEAR_SELECT;
 	// Enter
 	if (e.keyCode == 13) {
-		selected = highlighted == clearSelect() ? 1 : highlighted + 1;
+		selected = highlighted == CLEAR_SELECT ? 1 : highlighted + 1;
 	}
 	// Alt + number
 	var numPressed = parseInt(String.fromCharCode(e.keyCode), 10);
@@ -203,6 +188,26 @@ function listenForEscapeToClose() {
 	}, true);
 }
 
+// Handles Enter or Alt+n keyboard shortcuts
+function handleShortcuts(highlighted, queryResults, e) {
+	var numSelected = getNumSelected(highlighted, e);  // 1-based
+	if (numSelected != -1 && queryResults.length >= numSelected) {
+		var selectedEntry = queryResults[numSelected - 1];
+		var path = selectedEntry.path;
+		executeCommand(path);
+	}
+}
+
+function getHighlightChangedFromKeyPress(highlighted, keyCode) {
+	if (keyCode == 40) {  // down arrow; increase the index value
+		return Math.min(highlighted + 1, results.childNodes.length - 1);
+	} else if (keyCode == 38) {  // up arrow; decrease the index value
+		return Math.max(highlighted - 1, 0);
+	} else if (keyCode != 13) {  // anything but Enter clears the selected
+		return CLEAR_SELECT;
+	}
+}
+
 function main() {
 	listenForEscapeToClose();
 
@@ -217,23 +222,10 @@ function main() {
 		var query = e.target.value;
 		var queryResults = getQueryResults(entries, query);
 		updateResults(queryResults);
+		highlighted = getHighlightChangedFromKeyPress(highlighted, e.keyCode)
 
-
-		if (e.keyCode == 40) {  // down arrow
-			highlighted = selectDown(highlighted);
-		} else if (e.keyCode == 38) {  // up arrow
-			highlighted = selectUp(highlighted);
-		} else if (e.keyCode != 13) {  // anything but Enter clears the selected
-			highlighted = clearSelect();
-		}
 		updateHighlighted(highlighted);
-
-		var numSelected = getNumSelected(highlighted, e);  // 1-based
-		if (numSelected != -1 && queryResults.length >= numSelected) {
-			var selectedEntry = queryResults[numSelected - 1];
-			var path = selectedEntry.path;
-			executeCommand(path);
-		}
+		handleShortcuts(highlighted, queryResults, e);
 	}, true);
 
 	win.on('blur', function () {
