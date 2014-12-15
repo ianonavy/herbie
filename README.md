@@ -54,7 +54,7 @@ Todo
 Screenshots
 -----------
 
-[Herbie](http://i.imgur.com/NDjVyrU.png)
+![Herbie](http://i.imgur.com/NDjVyrU.png)
 
 License
 -------
