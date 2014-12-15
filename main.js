@@ -233,7 +233,6 @@ function main() {
 	}, true);
 }
 
-
-main();
+setTimeout(main, 100);
 
 })();
