@@ -193,13 +193,17 @@ function updateHighlighted(highlighted) {
 	}
 }
 
-function main() {
+function listenForEscapeToClose() {
 	document.addEventListener('keyup', function (e) {
 		if (e.keyCode == 27) {  // escape
 			var win = gui.Window.get();
 			win.close();
 		}
 	}, true);
+}
+
+function main() {
+	listenForEscapeToClose();
 
 	var highlighted = -1;  // none
 	var entries = [];
