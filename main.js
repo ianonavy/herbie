@@ -179,20 +179,18 @@ function updateHighlighted(highlighted) {
 	}
 }
 
-function listenForEscapeToClose() {
-	document.addEventListener('keyup', function (e) {
-		if (e.keyCode == 27) {  // escape
-			var win = gui.Window.get();
-			win.close();
-		}
-	}, true);
+function listenForEscapeToClose(keyCode) {
+	if (keyCode == 27) {  // escape
+		var win = gui.Window.get();
+		win.close();
+	}
 }
 
 // Handles Enter or Alt+n keyboard shortcuts
-function handleShortcuts(highlighted, queryResults, e) {
+function handleShortcuts(highlighted, displayedEntries, e) {
 	var numSelected = getNumSelected(highlighted, e);  // 1-based
-	if (numSelected != -1 && queryResults.length >= numSelected) {
-		var selectedEntry = queryResults[numSelected - 1];
+	if (numSelected != -1 && displayedEntries.length >= numSelected) {
+		var selectedEntry = displayedEntries[numSelected - 1];
 		var path = selectedEntry.path;
 		executeCommand(path);
 	}
@@ -209,23 +207,24 @@ function getHighlightChangedFromKeyPress(highlighted, keyCode) {
 }
 
 function main() {
-	listenForEscapeToClose();
-
+	var searchTextbox = document.getElementById("search");
 	var highlighted = -1;  // none
 	var entries = [];
 	xdg.forEachDataDir(function (dataDir) {
 		entries = entries.concat(getEntriesFromApplications(dataDir));
 	});
+	var displayedEntries = [];
 
-	var searchTextbox = document.getElementById("search");
-	searchTextbox.addEventListener('keyup', function (e) {
-		var query = e.target.value;
-		var queryResults = getQueryResults(entries, query);
-		updateResults(queryResults);
-		highlighted = getHighlightChangedFromKeyPress(highlighted, e.keyCode)
-
+	document.addEventListener('keyup', function (e) {
+		listenForEscapeToClose(e.keyCode);
+		highlighted = getHighlightChangedFromKeyPress(highlighted, e.keyCode);
+		handleShortcuts(highlighted, entries, e);
+		if (e.target == searchTextbox) {
+			var query = e.target.value;
+			displayedEntries = getQueryResults(entries, query);
+		}
+		updateResults(displayedEntries);
 		updateHighlighted(highlighted);
-		handleShortcuts(highlighted, queryResults, e);
 	}, true);
 
 	win.on('blur', function () {
