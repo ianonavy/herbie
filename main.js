@@ -7,9 +7,12 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 var clj_fuzzy = require('clj-fuzzy');
-var xdg = require('./xdg');
 var win = gui.Window.get();
+var net = require('net');
+var xdg = require('./xdg');
 
+// Use /tmp/ so we don't need superuser privileges
+var HERBIE_SOCKET_FILENAME = '/tmp/herbie';
 var CLEAR_SELECT = -1;
 var results = document.getElementById("results");
 
@@ -19,8 +22,14 @@ var results = document.getElementById("results");
 function executeCommand(path) {
 	path = path.replace(/%[UufF]/g, "");
 	console.log("Executing: " + path);
-	exec(path);  // dun dun dun
-	win.close();
+	var conn = net.createConnection(HERBIE_SOCKET_FILENAME);
+	conn.on('connect', function() {
+		console.log('connected to unix socket server');
+		conn.write(path , function () {
+			conn.end()
+			win.close();
+		})
+	});
 }
 
 // Reads a desktop file. Returns an object with an "exists" attribute as false
