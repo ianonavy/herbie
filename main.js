@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
 
 var gui = require('nw.gui');

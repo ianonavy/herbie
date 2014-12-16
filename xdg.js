@@ -1,3 +1,5 @@
+'use strict';
+
 var xdgBasedir = require('xdg-basedir');
 var path = require('path');
 var fs = require('fs');
