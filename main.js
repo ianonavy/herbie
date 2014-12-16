@@ -72,7 +72,13 @@ function getQueryResults(entries, query) {
 		}
 		var lowerTitle = entry.title.toLowerCase();
 		var contains = lowerQuery.indexOf(lowerTitle) != -1;
-		var wildcardRegex = new RegExp(lowerQuery.split("").join(".*"), "i");
+		// Ignore any regex-related characters, but if the user's query is
+		// abc, match anything that contains a substring of form "a*b*c"
+		// For example, "gc" matches "Google Chrome".
+		var regexString = lowerQuery.replace(/[\[\\\^\$\.\|\?\*\+\(\)]/g, '')
+		                            .split("")
+		                            .join(".*");
+		var wildcardRegex = new RegExp(regexString, "i");
 		var wildcardMatch = wildcardRegex.test(lowerTitle);
 		return contains || wildcardMatch;
 	}
