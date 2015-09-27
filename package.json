@@ -6,7 +6,7 @@
     "xdg-basedir": ">= 1.0.0",
     "clj-fuzzy": ">=0.2.0"
   },
-  "main": "index.html",
+  "main": "main.js",
    "window": {
    	"title": "Herby",
     "toolbar": false,

@@ -8,9 +8,9 @@ Shameless ripoff of [Alfred](http://www.alfredapp.com/). Inspired by [Mutate](ht
 Requirements
 ------------
 
+* electron>=0.33.3
 * nodejs>=0.10.33
 * npm>=2.1.14
-* node-webkit>=0.11.2
 
 Installing
 ----------
@@ -19,9 +19,9 @@ Clone this repo, and `cd` into the directory. Then run:
 
     npm install
 
-Run with `nw --enable-transparent-visuals --disable-gpu .`
+Run with `electron --enable-transparent-visuals --disable-gpu .`
 
-I needed those flags to [get around some node-webkit transparency issues on Arch](https://github.com/rogerwang/node-webkit/issues/132#issuecomment-64943359). You may not need them.
+I needed those flags to enable transparency on Linux. You may not need them.
 
 Current Features
 ----------------
